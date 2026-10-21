@@ -1,0 +1,44 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<PackageId>MahaMS.HealthBundleDiff</PackageId>
+		<Version>1.0.0-beta</Version>
+		<Authors>Maha M. Shawkat</Authors>
+		<Company>MahaMSh</Company>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageTags> bundle; diff; healthcare; interoperability; gemini; r4</PackageTags>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<TargetFramework>net10.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<PackageProjectUrl>https://github.com/MahaMShawkat/HealthBundleDiff</PackageProjectUrl>
+		<Description>
+			Compares two FHIR R4 bundles, detects added/removed/modified resources and fields, and generates plain-language explanations of clinically significant changes via Gemini.
+		</Description>
+		<RepositoryUrl>https://github.com/MahaMShawkat/HealthBundleDiff.git</RepositoryUrl>
+		<PackageReleaseNotes>Initial beta release. Matches and diffs two FHIR R4 bundles and explains modified resources with Gemini. Known limitations are listed in the README.</PackageReleaseNotes>
+		<Copyright>Copyright (c) 2026 Maha M. Shawkat</Copyright>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\HealthBundleDiff.Core\HealthBundleDiff.Core.csproj" PrivateAssets="All">
+			<ReferenceOutputAssembly>true</ReferenceOutputAssembly>			
+		</ProjectReference>
+	</ItemGroup>
+	<PropertyGroup>
+		<TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);CopyProjectReferencesToPackage</TargetsForTfmSpecificBuildOutput>
+	</PropertyGroup>
+
+	<Target Name="CopyProjectReferencesToPackage" DependsOnTargets="BuildOnlySettings;ResolveReferences">
+		<ItemGroup>
+			<BuildOutputInPackage Include="@(ReferenceCopyLocalPaths-&gt;WithMetadataValue('ReferenceSourceTarget', 'ProjectReference'))" />
+		</ItemGroup>
+	</Target>
+	<ItemGroup>
+		<None Include="README.md" Pack="true" PackagePath="\" />
+	</ItemGroup>
+	<ItemGroup>
+	  <PackageReference Include="Hl7.Fhir.R4" Version="6.4.0" />
+	</ItemGroup>
+
+</Project>

@@ -1,0 +1,6 @@
+@HealthBundleDiff.Api_HostAddress = http://localhost:5047
+
+GET {{HealthBundleDiff.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

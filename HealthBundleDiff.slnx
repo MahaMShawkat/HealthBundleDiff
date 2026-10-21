@@ -1,0 +1,13 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/HealthBundleDiff.Ai/HealthBundleDiff.Ai.csproj" />
+    <Project Path="src/HealthBundleDiff.Api/HealthBundleDiff.Api.csproj" />
+    <Project Path="src/HealthBundleDiff.Core/HealthBundleDiff.Core.csproj" />
+    <Project Path="src/HealthBundleDiff.Web/HealthBundleDiff.Web.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/HealthBundleDiff.Ai.Tests/HealthBundleDiff.Ai.Tests.csproj" />
+    <Project Path="tests/HealthBundleDiff.Core.Tests/HealthBundleDiff.Core.Tests.csproj" />
+    <Project Path="tests/HealthBundleDiff.TestHelpers/HealthBundleDiff.TestHelpers.csproj" />
+  </Folder>
+</Solution>
