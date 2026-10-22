@@ -1,4 +1,4 @@
-# HealthBundleDiff
+# Health Bundle Diff and Explainer
 
 Compare two FHIR R4 bundles and get a field-level diff with plain-language explanations of what changed and why it matters.
 
@@ -23,7 +23,7 @@ dotnet add package MahaMS.HealthBundleDiff --prerelease
 
 ```csharp
 using HealthBundleDiff.Core.Services;
-using FhirDiff.Ai.Services;
+using HealthBundleDiff.Ai.Services;
 
 var processor = new BundleDiffProcessor(
     new BundleMatcher(),

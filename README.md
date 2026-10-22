@@ -1,4 +1,5 @@
-# FHIR bundle diff & explainer
+# Health Bundle Diff and Explainer
+Compares two health bundles and explains which changes matter.
 
 🚧 Work in progress — portfolio project
 
@@ -10,13 +11,13 @@ Built as a hands-on project to apply a healthcare interoperability background (F
 
 ## What it does
 
-Compares two FHIR bundles structurally, then uses an LLM to generate a plain-language explanation of clinically significant changes — aimed at the developers and QA testers who'd consume this as a library, not at clinicians directly.
+Compares two health bundles structurally, then uses an LLM to generate a plain-language explanation of clinically significant changes — aimed at the developers and QA testers who'd consume this as a library, not at clinicians directly.
 
 ## How it works
 
-1. **Diff engine** (`FhirDiff.Core`, no AI) — matches resources between the old and new bundle by type and id, then does a full field-level comparison, recursing into nested objects and arrays.
-2. **Explanation layer** (`FhirDiff.Ai`) — takes only the matched-but-changed resources and asks Gemini to explain their real-world significance, guided by domain hints (e.g. a changed patient gender is high-impact, a changed phone number is not). Added/removed/unidentifiable resources get a fixed local message instead of an API call, to save request budget.
-3. **Web viewer** (`FhirDiff.Web`) — renders the diff and explanations, color-coded by significance.
+1. **Diff engine** (`HealthBundleDiff.Core`, no AI) — matches resources between the old and new bundle by type and id, then does a full field-level comparison, recursing into nested objects and arrays.
+2. **Explanation layer** (`HealthBundleDiff.Ai`) — takes only the matched-but-changed resources and asks Gemini to explain their real-world significance, guided by domain hints (e.g. a changed patient gender is high-impact, a changed phone number is not). Added/removed/unidentifiable resources get a fixed local message instead of an API call, to save request budget.
+3. **Web viewer** (`HealthBundleDiff.Web`) — renders the diff and explanations, color-coded by significance.
 
 Key design principle: the diff engine is deterministic and AI-agnostic. `IDiffExplainer` is a swappable interface — Gemini today, could be a different backend later — which also keeps unit tests free of live API calls.
 
@@ -37,17 +38,17 @@ Built at zero budget: free-tier services only, no paid infrastructure, not GitHu
 ## Repository structure
 
 ```
-FhirBundleDiff/
+HealthBundleDiff/
 ├── src/
-│   ├── FhirDiff.Core/       # R4 parsing, structural diff (no AI)
-│   ├── FhirDiff.Ai/         # IDiffExplainer interface + Gemini implementation
-│   ├── FhirDiff.Api/        # ASP.NET Core Web API
-│   └── FhirDiff.Web/        # Blazor WASM UI
+│   ├── HealthBundleDiff.Core/       # R4 parsing, structural diff (no AI)
+│   ├── HealthBundleDiff.Ai/         # IDiffExplainer interface + Gemini implementation
+│   ├── HealthBundleDiff.Api/        # ASP.NET Core Web API
+│   └── HealthBundleDiff.Web/        # Blazor WASM UI
 ├── tests/
-│   ├── FhirDiff.Core.Tests/
-│   └── FhirDiff.Ai.Tests/
+│   ├── HealthBundleDiff.Core.Tests/
+│   └── HealthBundleDiff.Ai.Tests/
+│   └── HealthBundleDiff.TestHelpers/
 ├── docs/
-│   ├── PROGRESS-LOG.md      # session-by-session build log
 │   └── screenshots/
 └── .github/workflows/       # CI: build + unit tests
 ```
@@ -55,7 +56,7 @@ FhirBundleDiff/
 ## Data flow
 
 1. Upload/paste two FHIR R4 bundles (JSON).
-2. `FhirDiff.Core` produces a structural diff: added, removed, and modified resources, down to field level.
+2. `HealthBundleDiff.Core` produces a structural diff: added, removed, and modified resources, down to field level.
 3. Only clinically ambiguous changes are sent to Gemini, as a compact structured summary — not raw FHIR JSON.
 4. `IDiffExplainer` (Gemini) returns a structured explanation per change: resource, id, plain-language significance.
 5. The API returns combined JSON; the Blazor UI renders a diff table plus an explanation panel, color-coded by significance.
@@ -66,7 +67,7 @@ FhirBundleDiff/
 - [x] Field-level diff engine, including nested object and array handling
 - [x] Noise-field filtering (ignores irrelevant metadata like save timestamps)
 - [x] Gemini API research and prompt strategy
-- [ ] `GeminiDiffExplainer` HTTP implementation
+- [x] `GeminiDiffExplainer` HTTP implementation
 - [ ] Error and rate-limit handling
 - [ ] Web API `/compare` endpoint
 - [ ] Blazor UI
@@ -95,4 +96,4 @@ A Gemini API key (free, from [Google AI Studio](https://aistudio.google.com/api-
 On Oct 15, 2026, early commit history was rewritten to correct a mistyped author email.
 Author dates are unchanged. Committer dates show the rewrite time.
 The original history is kept on the branch `archive/pre-rewrite-history`.
-[Contributors graph](https://github.com/MahaMShawkat/FhirBundleDiff/graphs/contributors?from=7%2F11%2F2026) shows the commits on their original dates.
+[Contributors graph](https://github.com/MahaMShawkat/HealthBundleDiff/graphs/contributors?from=7%2F11%2F2026) shows the commits on their original dates.
