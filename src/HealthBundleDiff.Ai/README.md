@@ -23,7 +23,7 @@ dotnet add package MahaMS.HealthBundleDiff --prerelease
 
 ```csharp
 using HealthBundleDiff.Core.Services;
-using FhirDiff.Ai.Services;
+using HealthBundleDiff.Ai.Services;
 
 var processor = new BundleDiffProcessor(
     new BundleMatcher(),
