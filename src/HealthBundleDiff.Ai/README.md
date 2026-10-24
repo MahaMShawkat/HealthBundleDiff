@@ -24,6 +24,13 @@ dotnet add package MahaMS.HealthBundleDiff --prerelease
 ```csharp
 using HealthBundleDiff.Core.Services;
 using HealthBundleDiff.Ai.Services;
+using Hl7.Fhir.Model;
+
+var oldBundle = new Bundle { Type = Bundle.BundleType.Collection };
+var newBundle = new Bundle { Type = Bundle.BundleType.Collection };
+newBundle.Entry.Add(new Bundle.EntryComponent { Resource = new Patient { Id = "p1" } });
+var apiKey = Environment.GetEnvironmentVariable("GEMINI_API_KEY")
+    ?? throw new InvalidOperationException("Set the GEMINI_API_KEY environment variable.");
 
 var processor = new BundleDiffProcessor(
     new BundleMatcher(),
